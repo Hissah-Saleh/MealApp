@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">وجبة</string>
+    <string name="server_error">أوه! حدث شيء غير متوقع. جرب مرة أخرى لاحقًا!!</string>
+    <string name="no_internet_error">No internet connection!!</string>
+    <string name="retry">المحولة مرة أخرى</string>
+    <string name="no_result">لا يوجد نتائج</string>
+    <string name="search">البحث</string>
+
+</resources>

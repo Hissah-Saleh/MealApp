@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Meal</string>
+    <string name="server_error">"Uh-oh! Something unexpected happened. Try again later!!</string>
+    <string name="no_internet_error">No internet connection!!</string>
+    <string name="retry">retry</string>
+    <string name="no_result">there are no results</string>
+    <string name="search">Search</string>
+</resources>
