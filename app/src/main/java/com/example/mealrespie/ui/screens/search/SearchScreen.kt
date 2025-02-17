@@ -86,7 +86,9 @@ fun SearchScreen(
 
             when (val detailsResult = mealDetailsState) {
                 is UIState.Error ->
-                    ErrorUI()
+                    ErrorUI{
+                        viewModel.searchMeals(searchQuery.value)
+                    }
 
                 UIState.Loading ->
                     LoadingIndicator()

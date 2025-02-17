@@ -79,12 +79,10 @@ fun MainScreen(
                     )
 
                 UIState.Loading -> LoadingIndicator()
-                is UIState.Error -> ErrorUI()
+                is UIState.Error -> ErrorUI{viewModel.getAllCategorizedMeals()}
                 is UIState.NoInternetConnection -> {
                     NoInternet(Modifier.fillMaxSize()) {
                         viewModel.getAllCategorizedMeals()
-                        if (meals is UIState.NoInternetConnection)
-                            viewModel.getSelectedMealByCategory()
 
                     }
                 }
@@ -109,7 +107,7 @@ fun MainScreen(
                 }
 
                 UIState.Loading -> LoadingIndicator()
-                is UIState.Error -> ErrorUI()
+                is UIState.Error -> ErrorUI{viewModel.getSelectedMealByCategory()}
                 is UIState.NoInternetConnection -> {
                     NoInternet(Modifier.fillMaxSize()) {
                         viewModel.getSelectedMealByCategory()
