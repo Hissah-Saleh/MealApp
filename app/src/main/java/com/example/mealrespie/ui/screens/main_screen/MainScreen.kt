@@ -22,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
@@ -52,7 +53,11 @@ fun MainScreen(
     LaunchedEffect(selectedIndex) {
         viewModel.getSelectedMealByCategory()
     }
-    CommonLayout("", false, onSearchClick = navigateToSearch) { innerPadding ->
+    CommonLayout(
+        LocalContext.current.getString(R.string.meals),
+        false,
+        onSearchClick = navigateToSearch
+    ) { innerPadding ->
         Column(
             Modifier
                 .fillMaxSize()
