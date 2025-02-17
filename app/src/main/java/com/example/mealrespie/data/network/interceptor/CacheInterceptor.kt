@@ -8,6 +8,7 @@ import javax.inject.Singleton
 
 @Singleton
 class CacheInterceptor : Interceptor {
+    //cache the response from OkHttp Client using Interceptor
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val response: Response = chain.proceed(chain.request())
