@@ -12,3 +12,5 @@ The app uses a modern Android architecture following the **MVVM** and **Clean Ar
   - **Navigation Component**: For handling navigation between screens
   - **ViewModel & StateFlow**: For managing UI state and observing changes
   - **Network Caching**: Using OkHttp cache headers to manage API responses
+  - **Chucker** : For debugging network requests
+  - **Timber** : For a logging
