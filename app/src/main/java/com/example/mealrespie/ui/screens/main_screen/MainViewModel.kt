@@ -24,8 +24,8 @@ class MainViewModel @Inject constructor(
 
     private val _categories = MutableStateFlow<UIState<List<CategoryDTO>?>>(UIState.Loading)
     val categories: StateFlow<UIState<List<CategoryDTO>?>> get() = _categories
-    private val _meals = MutableStateFlow<UIState<List<MealItem>?>>(UIState.Loading)
-    val meals: StateFlow<UIState<List<MealItem>?>> get() = _meals
+    private val _meals = MutableStateFlow<UIState<List<MealItem>?>?>(null)
+    val meals: StateFlow<UIState<List<MealItem>?>?> get() = _meals
 
     private val _selectedIndex = MutableStateFlow<Int>(0)
     val selectedIndex: StateFlow<Int> get() = _selectedIndex
@@ -72,6 +72,7 @@ class MainViewModel @Inject constructor(
 
     fun getMealByCategory(category: String?) {
         viewModelScope.launch {
+            _meals.value= UIState.Loading
             _meals.value = when (val result = getMealByCategoryUseCase(category.orEmpty())) {
                 is ApiResult.ApiError -> UIState.Error(msg = result.body)
                 ApiResult.Loading -> UIState.Loading

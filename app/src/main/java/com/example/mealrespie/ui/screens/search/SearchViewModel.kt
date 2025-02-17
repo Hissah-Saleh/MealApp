@@ -24,6 +24,7 @@ class SearchViewModel @Inject constructor(
 
     fun searchMeals(query: String){
         viewModelScope.launch {
+            _mealDetailsState.value= UIState.Loading
             when (val result = searchMealsUseCase(query)) {
                 is ApiResult.ApiError -> _mealDetailsState.value = UIState.Error(msg = result.body)
                 ApiResult.Loading -> _mealDetailsState.value = UIState.Loading

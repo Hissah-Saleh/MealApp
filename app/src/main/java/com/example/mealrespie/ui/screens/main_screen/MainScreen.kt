@@ -40,8 +40,8 @@ import com.example.mealrespie.ui.ui_component.UIState
 @Composable
 fun MainScreen(
     viewModel: MainViewModel = hiltViewModel(),
-    navigateToDetails: (String)-> Unit,
-    navigateToSearch:()-> Unit
+    navigateToDetails: (String) -> Unit,
+    navigateToSearch: () -> Unit
 ) {
 
     val meals by viewModel.meals.collectAsState()
@@ -52,13 +52,15 @@ fun MainScreen(
     LaunchedEffect(selectedIndex) {
         viewModel.getSelectedMealByCategory()
     }
-    CommonLayout("",false, onSearchClick = navigateToSearch) {innerPadding->
-        Column(Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .padding(innerPadding)) {
+    CommonLayout("", false, onSearchClick = navigateToSearch) { innerPadding ->
+        Column(
+            Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+                .padding(innerPadding)
+        ) {
 
-            when(val result= category){
+            when (val result = category) {
                 is UIState.Success ->
                     ScrollableTabRow(
                         selectedTabIndex = selectedIndex,
@@ -74,14 +76,27 @@ fun MainScreen(
                             }
                         }
 
-                )
+                    )
+
+                UIState.Loading -> LoadingIndicator()
+                is UIState.Error -> ErrorUI()
+                is UIState.NoInternetConnection -> {
+                    NoInternet(Modifier.fillMaxSize()) {
+                        viewModel.getAllCategorizedMeals()
+                        if (meals is UIState.NoInternetConnection)
+                            viewModel.getSelectedMealByCategory()
+
+                    }
+                }
+
                 else -> {}
             }
 
-            when(val result= meals){
-                is UIState.Success ->   result.data?.let {
-                    LazyColumn(Modifier.fillMaxSize(),
-                        ) {
+            when (val result = meals) {
+                is UIState.Success -> result.data?.let {
+                    LazyColumn(
+                        Modifier.fillMaxSize(),
+                    ) {
                         itemsIndexed(result.data) { index, item ->
                             MealItem(item) { id ->
                                 if (id != null)
@@ -92,24 +107,20 @@ fun MainScreen(
                         }
                     }
                 }
+
+                UIState.Loading -> LoadingIndicator()
+                is UIState.Error -> ErrorUI()
+                is UIState.NoInternetConnection -> {
+                    NoInternet(Modifier.fillMaxSize()) {
+                        viewModel.getSelectedMealByCategory()
+
+                    }
+                }
+
                 else -> {}
-            }
-
-
-            when{
-               category is UIState.Loading || meals is UIState.Loading-> LoadingIndicator()
-               category is UIState.Error || meals is UIState.Error-> ErrorUI()
-               category is UIState.NoInternetConnection || meals is UIState.NoInternetConnection-> {
-                   NoInternet(Modifier.fillMaxSize()) {
-                       if(category is UIState.NoInternetConnection)
-                       viewModel.getAllCategorizedMeals()
-                       if(meals is UIState.NoInternetConnection)
-                           viewModel.getSelectedMealByCategory()
-
-                   }
-               }
 
             }
+
 
         }
     }
@@ -117,11 +128,12 @@ fun MainScreen(
 
 @Composable
 @OptIn(ExperimentalGlideComposeApi::class)
-private fun MealItem(item: MealItem?, onClick: (String?)-> Unit) {
+private fun MealItem(item: MealItem?, onClick: (String?) -> Unit) {
     Row(Modifier
         .padding(vertical = 10.dp)
         .fillMaxWidth()
-        .clickable { onClick(item?.mealId) }, verticalAlignment = Alignment.CenterVertically) {
+        .clickable { onClick(item?.mealId) }, verticalAlignment = Alignment.CenterVertically
+    ) {
         GlideImage(
             model = item?.mealThumb + "/preview",
             contentDescription = item?.mealName,
